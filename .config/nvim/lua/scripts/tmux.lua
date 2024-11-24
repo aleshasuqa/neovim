@@ -1,9 +1,17 @@
 local vim = vim
 
-local function openSplit(split)
-    vim.cmd('!tmux split-window -'..split)
+-- local opts = {
+--     split = 'v|h',
+--     cmd = 'ls -la',
+-- }
+
+local M = {}
+
+function M.send2split(opts)
+    local split = 'silent !tmux split-window -'
+    local send = ' \\; send \''
+    local enter = '\' ENTER'
+    vim.cmd(split .. opts.split .. send .. opts.cmd .. enter)
 end
 
-vim.keymap.set('n', 'mm', function ()
-    openSplit('v')
-end)
+return M

@@ -13,6 +13,7 @@ local function swap(lhs, rhs)
     map('', string.upper(rhs), string.upper(lhs), { noremap = true })
 end
 
+
 swap("n", "j")
 swap("e", "k")
 swap("i", "l")
@@ -173,4 +174,12 @@ map("n", "<C-t>", function()
         return file_name
     end, cur or 1
     )
+end)
+
+map('n', 'mm', function()
+    local opts = {
+        split = 'v',
+        cmd = 'echo hello'
+    }
+    require('scripts.tmux').send2split(opts)
 end)
