@@ -17,8 +17,9 @@ end
 swap("n", "j")
 swap("e", "k")
 swap("i", "l")
+swap("m", "h")
 
-map("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>")
+map("n", "<C-m>", "<cmd>TmuxNavigateLeft<cr>")
 map("n", "<C-e>", "<cmd>TmuxNavigateUp<cr>")
 map("n", "<C-n>", "<cmd>TmuxNavigateDown<cr>")
 map("n", "<C-i>", "<cmd>TmuxNavigateRight<cr>")
@@ -30,8 +31,8 @@ map('n', '<leader>nh', ':noh<CR>', { silent = true })
 map("v", "N", ":m '>+1<CR>gv=gv")
 map("v", "E", ":m '<-2<CR>gv=gv")
 
-map("n", "<C-l>", "<C-u>zz")
-map("n", "<C-m>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-d>", "<C-d>zz")
 
 map("x", "p", '"_dP')
 map("i", "<C-c>", "<Esc>")
@@ -176,7 +177,7 @@ map("n", "<C-t>", function()
     )
 end)
 
-map('n', 'mm', function()
+map('n', 'hh', function()
     local opts = {
         split = 'v',
         cmd = 'echo hello'
