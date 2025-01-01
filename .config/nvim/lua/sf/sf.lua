@@ -4,16 +4,12 @@ local util = require('sf.util')
 
 local commands = {
     {
-        name = 'run this',
-        action = function() vim.cmd('SFRun') end
-    },
-    {
-        name = 'query',
-        action = function() vim.cmd('SFQuery') end
-    },
-    {
         name = 'open org',
         action = function() vim.cmd('SFOpenOrg') end
+    },
+    {
+        name = 'dev console',
+        action = function() vim.cmd('SFDevConsole') end
     },
     {
         name = 'login',
@@ -79,11 +75,28 @@ local commands = {
             vim.cmd('SFCreateLWC ' .. lwc)
         end
     },
+    {
+        name = 'set org',
+        action = function() vim.cmd('SFSetOrg') end
+    },
 }
+
+
+local function getCurOrg()
+    local cmd_out = vim.system({ 'sf', 'config', 'list', '--json' },
+        { text = true }):wait().stdout
+    local res = vim.json.decode(cmd_out).result
+    for _, v in ipairs(res) do
+        print(v.name)
+        if v.name == 'target-org' then
+            return v.value
+        end
+    end
+end
 
 map({'n', 'v'}, "<leader>ss", function ()
     util.tele_cmd({
-        name = 'SF',
+        name = 'SF (' .. getCurOrg() .. ')',
         picks = commands,
         width = 40,
         telescope_opts = require("telescope.themes").get_dropdown{layout_config = {width = 40}},

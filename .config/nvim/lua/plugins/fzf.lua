@@ -43,8 +43,19 @@ return {
         end
     },
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" }
+        "leath-dub/snipe.nvim",
+        dependencies = {
+            {
+                "ThePrimeagen/harpoon",
+                branch = "harpoon2",
+                dependencies = { "nvim-lua/plenary.nvim" },
+            }
+        },
+        lazy = false,
+        opts = {
+            hints = {
+                dictionary = "dtsrapv"
+            }
+        },
     }
 }

@@ -17,16 +17,15 @@ return {
                     completeopt = "menu,menuone,noinsert",
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+                    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+                    ["<C-e>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     }),
-                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-u>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.abort(),
                     ["<S-CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
@@ -41,11 +40,11 @@ return {
                     { name = "path" },
                     { name = "buffer" },
                 }),
-                experimental = {
-                    ghost_text = {
-                        hl_group = "CmpGhostText",
-                    },
-                },
+                -- experimental = {
+                --     ghost_text = {
+                --         hl_group = "CmpGhostText",
+                --     },
+                -- },
                 sorting = defaults.sorting,
             }
         end,

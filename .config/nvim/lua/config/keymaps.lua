@@ -14,10 +14,10 @@ local function swap(lhs, rhs)
 end
 
 
-swap("n", "j")
-swap("e", "k")
-swap("i", "l")
-swap("m", "h")
+-- swap("n", "j")
+-- swap("e", "k")
+-- swap("i", "l")
+-- swap("m", "h")
 
 map("n", "<C-m>", "<cmd>TmuxNavigateLeft<cr>")
 map("n", "<C-e>", "<cmd>TmuxNavigateUp<cr>")
@@ -161,7 +161,6 @@ map("n", "<C-t>", function()
 
 
     local _, cur = harpoon:list():get_by_value(vim.fn.expand("%"))
-    print(cur)
     menu:open(items, function(m, i)
         m:close()
         harpoon:list():select(i)
@@ -177,10 +176,3 @@ map("n", "<C-t>", function()
     )
 end)
 
-map('n', 'hh', function()
-    local opts = {
-        split = 'v',
-        cmd = 'echo hello'
-    }
-    require('scripts.tmux').send2split(opts)
-end)
