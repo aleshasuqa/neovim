@@ -1,36 +1,12 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
 local vim = vim
 local map = vim.keymap.set
 
--- ===== colemak =====
-local function swap(lhs, rhs)
-    map('', lhs, rhs, { noremap = true })
-    map('', rhs, lhs, { noremap = true })
-    map('', string.upper(lhs), string.upper(rhs), { noremap = true })
-    map('', string.upper(rhs), string.upper(lhs), { noremap = true })
-end
+map('n', '<leader>h', ':noh<CR>', { silent = true })
 
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
 
-swap("n", "j")
-swap("e", "k")
-swap("i", "l")
-swap("m", "h")
-
-map("n", "<C-m>", "<cmd>TmuxNavigateLeft<cr>")
-map("n", "<C-e>", "<cmd>TmuxNavigateUp<cr>")
-map("n", "<C-n>", "<cmd>TmuxNavigateDown<cr>")
-map("n", "<C-i>", "<cmd>TmuxNavigateRight<cr>")
-
-
--- ===== goodies =====
-map('n', '<leader>nh', ':noh<CR>', { silent = true })
-
-map("v", "N", ":m '>+1<CR>gv=gv")
-map("v", "E", ":m '<-2<CR>gv=gv")
-
+map("n", "<leader>wq", ":wq<CR>")
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
 
@@ -39,7 +15,6 @@ map("i", "<C-c>", "<Esc>")
 map("n", "<leader>k", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/g<Left><Left><Left>]])
 
 map("n", "<leader>e", vim.cmd.Ex)
-map("n", "<leader>wq", ":wq<CR>")
 map("n", "<leader>vs", function()
     vim.cmd(":vsplit<CR>")
     require('telescope.builtin').find_files({ hidden = true })
@@ -64,7 +39,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('n', 'gd', function() telescope.lsp_definitions({ jump_type = "vsplit" }) end, opts)
         map('n', 'E', vim.lsp.buf.hover, opts)
         map('n', 'gi', telescope.lsp_implementations, opts)
-        map('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        map('n', '<C-s>', vim.lsp.buf.signature_help, opts)
         map('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
         map('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
         map('n', '<space>wl', function()
@@ -116,71 +91,3 @@ map('n', '<leader>fh', function()
     })
 end, {})
 
-local harpoon = require('harpoon')
-harpoon:setup({})
-map("n", "<leader>a", function() harpoon:list():add() end)
-map("n", "<leader>d", function() harpoon:list():clear() end)
-
-local get_paths = function()
-    local files = harpoon:list()
-    local paths = {}
-    for _, item in ipairs(files.items) do
-        table.insert(paths, item.value)
-    end
-    return paths
-end
-
-map("n", "<C-t>", function()
-    local Menu = require("snipe.menu")
-    local menu = Menu:new {
-        position = "center",
-        open_win_override = {
-            title = "",
-        },
-    }
-    local items = get_paths()
-    if #items == 0 then
-        print('no tabs saved')
-        return
-    end
-    menu:add_new_buffer_callback(function(m)
-        map("n", "<esc>", function()
-            m:close()
-        end, { nowait = true, buffer = m.buf })
-
-        map("n", "q", function()
-            m:close()
-        end, { nowait = true, buffer = m.buf })
-
-        map("n", "<C-d>", function()
-            harpoon:list():remove_at(m:hovered())
-            m.items = get_paths()
-            m:reopen()
-        end, { nowait = true, buffer = m.buf })
-    end)
-
-
-    local _, cur = harpoon:list():get_by_value(vim.fn.expand("%"))
-    print(cur)
-    menu:open(items, function(m, i)
-        m:close()
-        harpoon:list():select(i)
-    end, function(item)
-        local path = item
-
-        local file_name = ""
-        for part in path:gmatch("([^/]+)") do
-            file_name = part
-        end
-        return file_name
-    end, cur or 1
-    )
-end)
-
-map('n', 'hh', function()
-    local opts = {
-        split = 'v',
-        cmd = 'echo hello'
-    }
-    require('scripts.tmux').send2split(opts)
-end)

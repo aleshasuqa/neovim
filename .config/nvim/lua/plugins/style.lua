@@ -1,5 +1,17 @@
 local vim = vim
 
+
+function merge(t1, t2)
+    for k, v in pairs(t2) do
+        if (type(v) == "table") and (type(t1[k] or false) == "table") then
+            merge(t1[k], t2[k])
+        else
+            t1[k] = v
+        end
+    end
+    return t1
+end
+
 return {
     {
         'sainnhe/everforest',
@@ -10,6 +22,37 @@ return {
             -- directly inside the plugin declaration.
             vim.g.everforest_transparent_background = 1
             vim.g.everforest_background = 'hard'
+        end
+    },
+    {
+        "thesimonho/kanagawa-paper.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+        config = function()
+            require('kanagawa-paper').setup({
+                transparent = true,
+            })
+        end
+    },
+    {
+        'sainnhe/gruvbox-material',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.g.gruvbox_material_background = 'hard'
+            vim.g.gruvbox_material_transparent_background = 1
+            vim.cmd.colorscheme('gruvbox-material')
+        end
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000,
+        opts = {},
+        config = function()
+            require("gruvbox").setup({
+                transparent_mode = true,
+            })
         end
     },
     {
@@ -80,34 +123,55 @@ return {
         end
     },
     {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            vim.cmd("colorscheme rose-pine")
+            require("rose-pine").setup({
+                styles = {
+                    bold = true,
+                    italic = false,
+                    transparency = true,
+                },
+            })
+        end
+    },
+    {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         opts = function(_, opts)
-            local colors = dofile(os.getenv('HOME') .. '/.config/colors/colors.lua')
+            -- local colors = dofile(os.getenv('HOME') .. '/.config/colors/colors.lua')
+            local gruvbox = require 'lualine.themes.gruvbox-material'
 
-            local theme = {
-                normal = {
-                    a = { fg = colors.cyan, bg = "none", gui = "bold" },
-                    b = { fg = colors.green, bg = "none" }, --colors.kanagawa.menu_grey },
-                    c = { fg = colors.cyan, bg = "none" },    --colors.kanagawa.black },
-                },
-                insert = {
-                    a = { fg = colors.red, bg = "none", gui = "bold" },
-                },
-                visual = {
-                    a = { fg = colors.magenta, bg = "none", gui = "bold" },
-                },
-                replace = {
-                    a = { fg = colors.blue, bg = "none", gui = "bold" },
-                },
-                inactive = {
-                    a = { fg = colors.white, bg = "none", gui = "bold" },
-                    b = { fg = colors.black, bg = "none" }, --colors.kanagawa.menu_grey },
-                    c = { fg = colors.black, bg = "none" }, --colors.kanagawa.menu_grey },
-                },
-            }
+            local function make_theme(theme)
+                return {
+                    normal = {
+                        a = { fg = theme.normal.a.bg, bg = "none", gui = "bold" },
+                        b = { fg = theme.insert.a.bg, bg = "none" },
+                        c = { fg = theme.visual.a.bg, bg = "none" },
+                    },
+                    insert = {
+                        a = { fg = theme.insert.a.bg, bg = "none", gui = "bold" },
+                    },
+                    visual = {
+                        a = { fg = theme.visual.a.bg, bg = "none", gui = "bold" },
+                    },
+                    replace = {
+                        a = { fg = theme.replace.a.bg, bg = "none", gui = "bold" },
+                    },
+                    command = {
+                        a = { fg = theme.command.a.bg, bg = 'none', gui = 'bold' },
+                    },
+                    inactive = {
+                        a = { fg = theme.inactive.a.fg, bg = "none", gui = "bold" },
+                        b = { fg = theme.inactive.b.fg, bg = "none" },
+                        c = { fg = theme.inactive.c.fg, bg = "none" },
+                    },
+                }
+            end
+
             opts.options = {
-                theme = theme,
+                theme = make_theme(gruvbox),
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
             }
@@ -116,43 +180,4 @@ return {
             }
         end,
     },
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
-        ---@module "ibl"
-        ---@type ibl.config
-        opts = {
-            indent = {
-                char = "╎",
-                tab_char = "╎",
-            },
-            scope = { enabled = false },
-            exclude = {
-                filetypes = {
-                    "help",
-                    "alpha",
-                    "dashboard",
-                    "neo-tree",
-                    "Trouble",
-                    "trouble",
-                    "lazy",
-                    "mason",
-                    "notify",
-                    "toggleterm",
-                    "lazyterm",
-                },
-            },
-        },
-    },
-    {
-        "echasnovski/mini.indentscope",
-        version = false,
-        opts = function(_, opts)
-            local indent = require("mini.indentscope")
-            opts.delay = 0
-            opts.symbol = "╎"
-            opts.options = { try_as_border = true }
-            opts.draw = { animation = indent.gen_animation.none() }
-        end,
-    }
 }

@@ -91,6 +91,5 @@ vim.filetype.add({
     pattern = { [".*.rasi"] = "rasi" },
 })
 
-vim.cmd.colorscheme('everforest')
+vim.cmd.colorscheme('gruvbox')
 require('config.keymaps')
-require('sf.sf')
