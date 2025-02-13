@@ -90,12 +90,12 @@ return {
             end
             local caps = require('cmp_nvim_lsp').default_capabilities()
 
-            require('mason-lspconfig').setup({
-                ensure_installed = names,
-                capabilities = caps,
-            })
-
-
+            if not os.getenv('SCHOOL') then
+                require('mason-lspconfig').setup({
+                    ensure_installed = names,
+                    capabilities = caps,
+                })
+            end
 
             local lspconfig = require('lspconfig')
             for _, lsp in ipairs(servers) do
