@@ -33,4 +33,16 @@ return {
             vim.g.db_ui_use_nerd_fonts = 1
         end,
     },
+    {
+        "karb94/neoscroll.nvim",
+        lazy = false,
+        opts = {
+            duration_multiplier = 0.4,
+        }
+    },
+    {
+        "m4xshen/hardtime.nvim",
+        dependencies = { "MunifTanjim/nui.nvim" },
+        opts = {}
+    },
 }
