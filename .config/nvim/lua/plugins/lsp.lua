@@ -30,33 +30,34 @@ return {
         },
         config = function(_, opts)
             local servers = {
-                { name = "pylsp",         custom = false },
+                { name = "pylsp",  custom = false },
                 -- { name = "clangd",        custom = false },
                 -- { name = "jsonls",        custom = false },
                 -- { name = "rust_analyzer", custom = false },
-                { name = "lua_ls",        custom = false },
+                { name = "lua_ls", custom = false },
                 -- { name = "templ",         custom = false },
                 -- { name = "tailwindcss",   custom = true },
                 -- { name = "ts_ls",         custom = false },
-                { name = "html",          custom = true },
+                { name = "html",   custom = true },
                 -- { name = "htmx",          custom = true },
                 -- { name = "gopls",         custom = true },
                 { name = "bashls", custom = false },
                 { name = "hyprls", custom = false },
                 { name = "yamlls", custom = false },
             }
+            if os.getenv('SCHOOL') then
+                servers = { { name = "pylsp", custom = false } }
+            end
             local names = {}
             for i, s in pairs(servers) do
                 names[i] = s.name
             end
             local caps = require('cmp_nvim_lsp').default_capabilities()
 
-            if not os.getenv('SCHOOL') then
-                require('mason-lspconfig').setup({
-                    ensure_installed = names,
-                    capabilities = caps,
-                })
-            end
+            require('mason-lspconfig').setup({
+                ensure_installed = names,
+                capabilities = caps,
+            })
 
             local lspconfig = require('lspconfig')
             for _, lsp in ipairs(servers) do
@@ -65,7 +66,7 @@ return {
                 end
             end
             lspconfig.gopls.setup {
-                cmd = {"/home/asq/go/bin/gopls"},
+                cmd = { "/home/asq/go/bin/gopls" },
                 on_attach = function(client, bufnr)
                     if not client.server_capabilities.semanticTokensProvider then
                         local semantic = client.config.capabilities.textDocument.semanticTokens
@@ -124,7 +125,7 @@ return {
             lspconfig.htmx.setup {
                 filetypes = { "html", "templ" }
             }
-            lspconfig.cssls.setup{
+            lspconfig.cssls.setup {
                 capabilities = caps,
             }
         end,
