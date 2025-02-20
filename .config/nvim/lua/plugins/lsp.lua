@@ -42,12 +42,8 @@ return {
                 -- { name = "htmx",          custom = true },
                 -- { name = "gopls",         custom = true },
                 { name = "bashls", custom = false },
-                { name = "hyprls", custom = false },
                 { name = "yamlls", custom = false },
             }
-            if os.getenv('SCHOOL') then
-                servers = { { name = "pylsp", custom = false } }
-            end
             local names = {}
             for i, s in pairs(servers) do
                 names[i] = s.name
