@@ -30,20 +30,87 @@ return {
         },
         config = function(_, opts)
             local servers = {
-                -- { name = "pylsp",  custom = false },
-                { name = "pyright",  custom = false },
-                -- { name = "clangd",        custom = false },
-                -- { name = "jsonls",        custom = false },
-                -- { name = "rust_analyzer", custom = false },
-                { name = "lua_ls", custom = false },
-                -- { name = "templ",         custom = false },
-                -- { name = "tailwindcss",   custom = true },
-                -- { name = "ts_ls",         custom = false },
-                { name = "html",   custom = true },
-                -- { name = "htmx",          custom = true },
-                -- { name = "gopls",         custom = true },
-                { name = "bashls", custom = false },
-                { name = "yamlls", custom = false },
+                { name = "pyright" },
+                { name = "clangd" },
+                { name = "jsonls" },
+                { name = "rust_analyzer" },
+                { name = "lua_ls" },
+                { name = "templ" },
+                {
+                    name = "tailwindcss",
+                    setup = {
+                        filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+                        settings = {
+                            tailwindCSS = {
+                                includeLanguages = {
+                                    templ = "html",
+                                },
+                            },
+                        },
+                    }
+                },
+                { name = "ts_ls" },
+                {
+                    name = "html",
+                    setup = {
+                        filetypes = { "html", "templ" }
+                    }
+                },
+                {
+                    name = "htmx",
+                    setup = {
+                        filetypes = { "html", "templ" }
+                    }
+                },
+                {
+                    name = "gopls",
+                    setup = {
+                        cmd = { "/home/asq/go/bin/gopls" },
+                        on_attach = function(client, bufnr)
+                            if not client.server_capabilities.semanticTokensProvider then
+                                local semantic = client.config.capabilities.textDocument.semanticTokens
+                                client.server_capabilities.semanticTokensProvider = {
+                                    full = true,
+                                    legend = {
+                                        tokenTypes = semantic.tokenTypes,
+                                        tokenModifiers = semantic.tokenModifiers,
+                                    },
+                                    range = true,
+                                }
+                            end
+                        end,
+                        filetypes = { "go", "gomod", "gowork", "gotmpl", "templ" },
+                        settings = {
+                            gopls = {
+                                completeUnimported = true,
+                                usePlaceholders = true,
+                                staticcheck = true,
+                                directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+                                semanticTokens = true,
+                                gofumpt = true,
+                                codelenses = {
+                                    gc_details = false,
+                                    generate = true,
+                                    regenerate_cgo = true,
+                                    run_govulncheck = true,
+                                    test = true,
+                                    tidy = true,
+                                    upgrade_dependency = true,
+                                    vendor = true,
+                                },
+                                analyses = {
+                                    fieldalignment = true,
+                                    nilness = true,
+                                    unusedparams = true,
+                                    unusedwrite = true,
+                                    useany = true,
+                                },
+                            },
+                        },
+                    }
+                },
+                { name = "bashls" },
+                { name = "yamlls" },
             }
             local names = {}
             for i, s in pairs(servers) do
@@ -58,73 +125,12 @@ return {
 
             local lspconfig = require('lspconfig')
             for _, lsp in ipairs(servers) do
-                if lsp.custom == false then
+                if lsp.setup then
+                    lspconfig[lsp.name].setup(lsp.setup)
+                else
                     lspconfig[lsp.name].setup {}
                 end
             end
-            lspconfig.gopls.setup {
-                cmd = { "/home/asq/go/bin/gopls" },
-                on_attach = function(client, bufnr)
-                    if not client.server_capabilities.semanticTokensProvider then
-                        local semantic = client.config.capabilities.textDocument.semanticTokens
-                        client.server_capabilities.semanticTokensProvider = {
-                            full = true,
-                            legend = {
-                                tokenTypes = semantic.tokenTypes,
-                                tokenModifiers = semantic.tokenModifiers,
-                            },
-                            range = true,
-                        }
-                    end
-                end,
-                filetypes = { "go", "gomod", "gowork", "gotmpl", "templ" },
-                settings = {
-                    gopls = {
-                        completeUnimported = true,
-                        usePlaceholders = true,
-                        staticcheck = true,
-                        directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-                        semanticTokens = true,
-                        gofumpt = true,
-                        codelenses = {
-                            gc_details = false,
-                            generate = true,
-                            regenerate_cgo = true,
-                            run_govulncheck = true,
-                            test = true,
-                            tidy = true,
-                            upgrade_dependency = true,
-                            vendor = true,
-                        },
-                        analyses = {
-                            fieldalignment = true,
-                            nilness = true,
-                            unusedparams = true,
-                            unusedwrite = true,
-                            useany = true,
-                        },
-                    },
-                },
-            }
-            lspconfig.tailwindcss.setup {
-                filetypes = { "templ", "astro", "javascript", "typescript", "react" },
-                settings = {
-                    tailwindCSS = {
-                        includeLanguages = {
-                            templ = "html",
-                        },
-                    },
-                },
-            }
-            lspconfig.html.setup {
-                filetypes = { "html", "templ" }
-            }
-            lspconfig.htmx.setup {
-                filetypes = { "html", "templ" }
-            }
-            lspconfig.cssls.setup {
-                capabilities = caps,
-            }
         end,
     }
 }
