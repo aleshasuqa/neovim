@@ -30,7 +30,8 @@ return {
         },
         config = function(_, opts)
             local servers = {
-                { name = "pylsp",  custom = false },
+                -- { name = "pylsp",  custom = false },
+                { name = "pyright",  custom = false },
                 -- { name = "clangd",        custom = false },
                 -- { name = "jsonls",        custom = false },
                 -- { name = "rust_analyzer", custom = false },

@@ -40,9 +40,4 @@ return {
             duration_multiplier = 0.4,
         }
     },
-    {
-        "m4xshen/hardtime.nvim",
-        dependencies = { "MunifTanjim/nui.nvim" },
-        opts = {}
-    },
 }
