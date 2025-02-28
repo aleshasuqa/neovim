@@ -1,4 +1,3 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
 local vim = vim
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -6,28 +5,19 @@ vim.g.maplocalleader = "\\"
 require("config.lazy")
 require("config.autocmds")
 
--- vim.cmd('hi! LineNr guibg=bg')
-
--- Enable LazyVim auto format
 vim.g.autoformat = true
 
 vim.filetype.add({ extension = { templ = "templ" } })
 
--- LazyVim root dir detection
--- Each entry can be:
--- * the name of a detector function like `lsp` or `cwd`
--- * a pattern or array of patterns like `.git` or `lua`.
--- * a function with signature `function(buf) -> string|string[]`
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 
 vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
 
 local opt = vim.opt
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.smartindent = true
-
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.smartindent = true
 opt.clipboard = "unnamedplus"  -- Sync with system clipboard
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2           -- Hide * markup for bold and italic, but not markers with substitutions
@@ -66,14 +56,12 @@ opt.wrap = false                   -- Disable line wrap
 opt.fillchars = {
     foldopen = "",
     foldclose = "",
-    -- fold = "⸱",
-    fold = " ",
+    fold = "⸱",
     foldsep = " ",
     diff = "╱",
     eob = " ",
 }
 
--- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
 require('cmp').setup.filetype({ "sql" }, {
