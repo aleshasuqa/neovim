@@ -39,7 +39,7 @@ return {
                 {
                     name = "tailwindcss",
                     setup = {
-                        filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+                        filetypes = { "templ", "astro", "javascript", "typescript", "react", "typescriptreact" },
                         settings = {
                             tailwindCSS = {
                                 includeLanguages = {
