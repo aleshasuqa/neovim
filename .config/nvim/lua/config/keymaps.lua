@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('n', 'gd', function() telescope.lsp_definitions({ jump_type = "vsplit" }) end, opts)
         map('n', 'E', vim.lsp.buf.hover, opts)
         map('n', 'gi', telescope.lsp_implementations, opts)
-        map('n', '<C-s>', vim.lsp.buf.signature_help, opts)
+        map({'n', 'i'}, '<C-s>', vim.lsp.buf.signature_help, opts)
         map('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
         map('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
         map('n', '<space>wl', function()

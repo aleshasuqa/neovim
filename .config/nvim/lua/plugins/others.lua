@@ -15,13 +15,13 @@ return {
         "christoomey/vim-tmux-navigator",
         lazy = false,
         enabled = true,
-        keys = {
-            { "<C-Left>",  "<cmd>TmuxNavigateLeft<cr>" },
-            { "<C-Down>",  "<cmd>TmuxNavigateDown<cr>" },
-            { "<C-Up>",  "<cmd>TmuxNavigateUp<cr>" },
-            { "<C-Right>",  "<cmd>TmuxNavigateRight<cr>" },
-            { "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>" },
-        }
+        -- keys = {
+        --     { "<C-Left>",  "<cmd>TmuxNavigateLeft<cr>" },
+        --     { "<C-Down>",  "<cmd>TmuxNavigateDown<cr>" },
+        --     { "<C-Up>",  "<cmd>TmuxNavigateUp<cr>" },
+        --     { "<C-Right>",  "<cmd>TmuxNavigateRight<cr>" },
+        --     { "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>" },
+        -- }
     },
     {
         'kristijanhusak/vim-dadbod-ui',
