@@ -1,6 +1,8 @@
 local vim = vim
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.env.QWEN_API_KEY = os.getenv("QWEN_API_KEY")
+vim.env.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 require("config.lazy")
 require("config.autocmds")

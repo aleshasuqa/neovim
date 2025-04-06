@@ -3,12 +3,8 @@ local map = vim.keymap.set
 
 map('n', '<leader>h', ':noh<CR>', { silent = true })
 
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
-
-map("n", "<leader>wq", ":wq<CR>")
--- map("n", "<C-u>", "<C-u>zz")
--- map("n", "<C-d>", "<C-d>zz")
+map("v", "N", ":m '>+1<CR>gv=gv")
+map("v", "E", ":m '<-2<CR>gv=gv")
 
 map("x", "p", '"_dP')
 map("i", "<C-c>", "<Esc>")
@@ -39,7 +35,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('n', 'gd', function() telescope.lsp_definitions({ jump_type = "vsplit" }) end, opts)
         map('n', 'E', vim.lsp.buf.hover, opts)
         map('n', 'gi', telescope.lsp_implementations, opts)
-        map({'n', 'i'}, '<C-s>', vim.lsp.buf.signature_help, opts)
+        map({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help, opts)
         map('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
         map('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
         map('n', '<space>wl', function()
@@ -90,4 +86,9 @@ map('n', '<leader>fh', function()
         }
     })
 end, {})
+map('n', '<leader>q', builtin.quickfix, {})
 
+vim.keymap.set("n", '<leader>i',
+    function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
+    end)

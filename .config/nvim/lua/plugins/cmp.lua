@@ -1,14 +1,14 @@
 return {
-    {
-        "zbirenbaum/copilot.lua",
-        lazy = false,
-        config = function()
-            require("copilot").setup({
-                suggestion = { enabled = false, auto_trigger = false },
-                panel = { enabled = false },
-            })
-        end,
-    },
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     lazy = false,
+    --     config = function()
+    --         require("copilot").setup({
+    --             suggestion = { enabled = false, auto_trigger = false },
+    --             panel = { enabled = false },
+    --         })
+    --     end,
+    -- },
     {
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
