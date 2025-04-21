@@ -15,6 +15,24 @@ vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 
 vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
 
+vim.diagnostic.config({
+  virtual_text = {
+    source = "if_many",
+    prefix = '',
+  },
+  update_in_insert = true,
+  underline = true,
+  severity_sort = true,
+  float = {
+    focusable = false,
+    style = 'minimal',
+    border = 'rounded',
+    source = 'if_many',
+    header = '',
+    prefix = '',
+  },
+})
+
 local opt = vim.opt
 
 opt.tabstop = 4
@@ -66,13 +84,6 @@ opt.fillchars = {
 
 vim.g.markdown_recommended_style = 0
 
-require('cmp').setup.filetype({ "sql" }, {
-    sources = {
-        { name = 'vim-dadbod-completion' },
-        { name = 'buffer' },
-    }
-})
-
 vim.filetype.add({
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
 })
@@ -83,3 +94,4 @@ vim.filetype.add({
 
 vim.cmd.colorscheme('gruvbox')
 require('config.keymaps')
+

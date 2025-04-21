@@ -4,17 +4,10 @@
 local vim = vim
 local autocmd_group = vim.api.nvim_create_augroup("Custom auto-commands", { clear = true })
 
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-    pattern = {"*.slint"},
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    pattern = { "*.slint" },
     callback = function()
         vim.cmd(":setlocal filetype=slint")
-    end,
-})
-
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-    pattern = {"*.apxc", "*.cls", "*.trigger", "*.apex", "*.soql", "*.apexcode"},
-    callback = function()
-        vim.cmd("set filetype=apex")
     end,
 })
 
@@ -26,9 +19,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-vim.api.nvim_create_autocmd({"BufWritePost"}, {
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     pattern = "*/waybar/*",
     callback = function()
         vim.cmd("silent exec \"!killall -SIGUSR2 waybar\"")
     end
 })
+

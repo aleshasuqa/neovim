@@ -8,9 +8,7 @@ return {
                 'nvim-telescope/telescope-fzf-native.nvim',
                 build = 'make',
             },
-            {
-                'nvim-lua/plenary.nvim',
-            }
+            { 'nvim-lua/plenary.nvim' }
         },
         config = function()
             local telescope = require('telescope')
@@ -41,7 +39,67 @@ return {
                 }
             }
             telescope.load_extension('fzf')
-        end
+        end,
+
+        keys = {
+            {
+                '<C-f>',
+                function()
+                    require('telescope.builtin').find_files({
+                        hidden = true,
+                        layout_config = {
+                            width = 0.9,
+                            height = 0.9
+                        }
+                    })
+                end
+            },
+            {
+                '<leader>fg',
+                function()
+                    require('telescope.builtin').live_grep({
+                        layout_strategy = 'vertical',
+                        layout_config = {
+                            mirror = true,
+                            preview_cutoff = 1,
+                            width = 0.8,
+                            height = 0.99
+                        },
+                        additional_args = { '--hidden' }
+                    })
+                end
+            },
+            {
+                '<leader>fh',
+                function()
+                    require('telescope.builtin').help_tags({
+                        layout_strategy = 'vertical',
+                        layout_config = {
+                            mirror = true,
+                            preview_cutoff = 1,
+                            width = 0.5,
+                            height = 0.99
+                        }
+                    })
+                end
+            },
+
+            {
+                "<leader>vs",
+                function()
+                    vim.cmd(":vsplit<CR>")
+                    require('telescope.builtin').find_files({ hidden = true })
+                end
+            },
+            {
+                "<leader>hs",
+                function()
+                    vim.cmd(":split<CR>")
+                    require('telescope.builtin').find_files({ hidden = true })
+                end
+            },
+            { '<leader>q', require('telescope.builtin').quickfix }
+        }
     },
     {
         'ThePrimeagen/harpoon',
@@ -64,5 +122,23 @@ return {
             { 'd', 'dd',                                                                              ft = 'harpoon' },
             { 'q', ':wq<CR>',                                                                         ft = 'harpoon' }
         }
-    }
+    },
+    {
+        "ggandor/leap.nvim",
+        enabled = true,
+        keys = {
+            { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
+            { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
+            { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
+        },
+        config = function(_, opts)
+            local leap = require("leap")
+            for k, v in pairs(opts) do
+                leap.opts[k] = v
+            end
+            leap.add_default_mappings(true)
+            vim.keymap.del({ "x", "o" }, "x")
+            vim.keymap.del({ "x", "o" }, "X")
+        end,
+    },
 }
