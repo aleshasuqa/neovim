@@ -94,29 +94,6 @@ return {
                 end
             end
 
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-                callback = function(ev)
-                    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-                    local opt = { buffer = ev.buf }
-                    local telescope = require('telescope.builtin')
-                    map('n', 'gD', vim.lsp.buf.declaration, opt)
-                    map('n', 'gd', function() telescope.lsp_definitions({ jump_type = "vsplit" }) end, opt)
-                    map('n', 'E', vim.lsp.buf.hover, opt)
-                    map('n', 'gi', telescope.lsp_implementations, opt)
-                    map({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help, opt)
-                    map('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opt)
-                    map('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opt)
-                    map('n', '<space>wl', function()
-                        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                    end, opt)
-                    map('n', '<space>D', vim.lsp.buf.type_definition, opt)
-                    map('n', '<space>rn', vim.lsp.buf.rename, opt)
-                    map({ 'n', 'v' }, '<space>va', vim.lsp.buf.code_action, opt)
-                    map('n', 'gr', telescope.lsp_references, opt)
-                end,
-            })
         end,
     },
     {
@@ -124,7 +101,7 @@ return {
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
-                python = { "isort", "black" },
+                python = { "black" },
                 rust = { "rustfmt", lsp_format = "fallback" },
                 javascript = { "prettierd", "prettier", stop_after_first = true },
             },

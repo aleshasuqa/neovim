@@ -41,65 +41,6 @@ return {
             telescope.load_extension('fzf')
         end,
 
-        keys = {
-            {
-                '<C-f>',
-                function()
-                    require('telescope.builtin').find_files({
-                        hidden = true,
-                        layout_config = {
-                            width = 0.9,
-                            height = 0.9
-                        }
-                    })
-                end
-            },
-            {
-                '<leader>fg',
-                function()
-                    require('telescope.builtin').live_grep({
-                        layout_strategy = 'vertical',
-                        layout_config = {
-                            mirror = true,
-                            preview_cutoff = 1,
-                            width = 0.8,
-                            height = 0.99
-                        },
-                        additional_args = { '--hidden' }
-                    })
-                end
-            },
-            {
-                '<leader>fh',
-                function()
-                    require('telescope.builtin').help_tags({
-                        layout_strategy = 'vertical',
-                        layout_config = {
-                            mirror = true,
-                            preview_cutoff = 1,
-                            width = 0.5,
-                            height = 0.99
-                        }
-                    })
-                end
-            },
-
-            {
-                "<leader>vs",
-                function()
-                    vim.cmd(":vsplit<CR>")
-                    require('telescope.builtin').find_files({ hidden = true })
-                end
-            },
-            {
-                "<leader>hs",
-                function()
-                    vim.cmd(":split<CR>")
-                    require('telescope.builtin').find_files({ hidden = true })
-                end
-            },
-            { '<leader>q', require('telescope.builtin').quickfix }
-        }
     },
     {
         'ThePrimeagen/harpoon',
@@ -111,26 +52,13 @@ return {
             local map = vim.keymap.set
 
             harpoon:setup()
-            map('n', '<leader>a', function() harpoon:list():add() end)
-            map('n', 't', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
         end,
         keys = {
-            { 't', function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end, ft = 'netrw' },
-            { 'r', function() require('harpoon'):list():select(1) end,                                ft = 'harpoon' },
-            { 'e', function() require('harpoon'):list():select(2) end,                                ft = 'harpoon' },
-            { 'w', function() require('harpoon'):list():select(3) end,                                ft = 'harpoon' },
-            { 'd', 'dd',                                                                              ft = 'harpoon' },
-            { 'q', ':wq<CR>',                                                                         ft = 'harpoon' }
         }
     },
     {
         "ggandor/leap.nvim",
         enabled = true,
-        keys = {
-            { "s",  mode = { "n", "x", "o" }, desc = "Leap forward to" },
-            { "S",  mode = { "n", "x", "o" }, desc = "Leap backward to" },
-            { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-        },
         config = function(_, opts)
             local leap = require("leap")
             for k, v in pairs(opts) do
@@ -141,4 +69,24 @@ return {
             vim.keymap.del({ "x", "o" }, "X")
         end,
     },
+    {
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {
+            view_options = {
+                -- Show files and directories that start with "."
+                show_hidden = false,
+                -- This function defines what is considered a "hidden" file
+                is_hidden_file = function(name, bufnr)
+                    return false
+                end,
+            }
+        },
+        -- Optional dependencies
+        dependencies = { { "echasnovski/mini.icons", opts = {} } },
+        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+        -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+        lazy = false,
+    }
 }
