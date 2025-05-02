@@ -59,12 +59,12 @@ map('n', '<leader>fh',
     end)
 map('n', "<leader>vs",
     function()
-        vim.cmd(":vsplit<CR>")
+        vim.cmd(":split<CR>")
         telescope_builtin.find_files({ hidden = true })
     end)
 map('n', "<leader>hs",
     function()
-        vim.cmd(":split<CR>")
+        vim.cmd(":vsplit<CR>")
         telescope_builtin.find_files({ hidden = true })
     end)
 map('n', '<leader>q', telescope_builtin.quickfix)
