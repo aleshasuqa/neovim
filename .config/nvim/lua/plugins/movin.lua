@@ -75,18 +75,14 @@ return {
         ---@type oil.SetupOpts
         opts = {
             view_options = {
-                -- Show files and directories that start with "."
                 show_hidden = false,
-                -- This function defines what is considered a "hidden" file
                 is_hidden_file = function(name, bufnr)
                     return false
                 end,
             }
         },
-        -- Optional dependencies
         dependencies = { { "echasnovski/mini.icons", opts = {} } },
-        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-        -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
         lazy = false,
-    }
+    },
+    { 'mrjones2014/smart-splits.nvim' },
 }

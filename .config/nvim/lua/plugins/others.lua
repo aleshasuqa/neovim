@@ -12,22 +12,6 @@ return {
         lazy = false,
     },
     {
-        "christoomey/vim-tmux-navigator",
-        lazy = false,
-        enabled = true,
-        keys = {
-            { "<C-Left>",  "<cmd>TmuxNavigateLeft<cr>" },
-            { "<C-Down>",  "<cmd>TmuxNavigateDown<cr>" },
-            { "<C-Up>",  "<cmd>TmuxNavigateUp<cr>" },
-            { "<C-Right>",  "<cmd>TmuxNavigateRight<cr>" },
-            { "<C-h>",  "<cmd>TmuxNavigateLeft<cr>" },
-            { "<C-n>",  "<cmd>TmuxNavigateDown<cr>" },
-            { "<C-e>",  "<cmd>TmuxNavigateUp<cr>" },
-            { "<C-i>",  "<cmd>TmuxNavigateRight<cr>" },
-            { "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>" },
-        }
-    },
-    {
         'kristijanhusak/vim-dadbod-ui',
         dependencies = {
             { 'tpope/vim-dadbod',                     lazy = true },

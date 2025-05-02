@@ -15,6 +15,10 @@ map("n", "<leader>so", ":source ~/.config/nvim/init.lua<CR>", { silent = true })
 
 map('n', '<leader>d', vim.diagnostic.open_float)
 
+map('n', '<C-h>', require('smart-splits').move_cursor_left)
+map('n', '<C-n>', require('smart-splits').move_cursor_down)
+map('n', '<C-e>', require('smart-splits').move_cursor_up)
+map('n', '<C-i>', require('smart-splits').move_cursor_right)
 
 -- telescope
 local telescope_builtin = require('telescope.builtin')
